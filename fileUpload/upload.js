@@ -36,7 +36,7 @@ let upload = multer({
     storage: storage,
     fileFilter: imageFilter,
     limits: {
-        fileSize: 200000
+        fileSize: 20000000
     }
 
 })

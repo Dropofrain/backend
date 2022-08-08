@@ -35,7 +35,8 @@ exports.addUser = async(req,res) => {
                 return res.status(400).json({error:"something went wrong"})
             }
 
-            const url = `http://localhost:5000/api/confirmuser/${token.token}`
+            // const url = `http://localhost:5000/api/confirmuser/${token.token}`
+            const url = `${process.env.FRONTEND_URL}/confirmuser/${token.token}`
 
             // send email
             sendEmail({
@@ -98,7 +99,8 @@ exports.resendConfirmation = async(req,res) => {
         return res.status(400).json({error:"something went wrong"})
     }
 
-    const url = `http://localhost:5000/api/confirmuser/${token.token}`
+    // const url = `http://localhost:5000/api/confirmuser/${token.token}`
+    const url = `${process.env.FRONTEND_URL}/comfirmuser/${token.token}`
 
     // send email
     sendEmail({
@@ -160,7 +162,8 @@ exports.forgetPassword = async(req,res) => {
             return res.status(400).json({error:"something went wrong"})
         }
 
-        const url = `http://localhost:5000/api/resetpassword/${token.token}`
+        // const url = `http://localhost:5000/api/resetpassword/${token.token}`
+        const url = `${process.env.FRONTEND_URL}/resetpassword/${token.token}`
 
         sendEmail({
             from:"noreply@admin.com",
