@@ -1,6 +1,6 @@
 const Order = require('../model/orderModel')
 const OrderItems = require('../model/orderltemsModel')
-const Product = require('../model/productModel')
+// const Product = require('../model/productModel')
 
 exports.placeOrder = async (req, res) => {
     let orderItemsIds = await Promise.all(
@@ -14,7 +14,7 @@ exports.placeOrder = async (req, res) => {
                 product: orderItem.product,
                 quantity: orderItem.quantity,
                 totalPrice: orderItem.quantity * product.product_price,
-                orderItemprice,
+                
             })
             new_order_item = await new_order_item.save()
             if (!new_order_item) {
@@ -69,10 +69,15 @@ exports.orderDetails = async (req, res) => {
     res.send(order)
 }
 
-// to view user order
+
+// to view order of a user
 exports.userOrder = async (req, res) => {
-    let order = await Order.find({ userId: req.params.userid }).populate('userId', 'name')
-        .populate({ path: 'orderItemsIds', populate: { path: 'product', populate: 'category' } })
+    let order = await Order.find({ userId: req.params.userid })
+    .populate({ 
+        path: 'orderItemsIds', populate:{ 
+            path: 'product', populate: { path: 'category' } 
+        } 
+    })
     if (!order) {
         return res.status(400).json({ error: "something went wrong" })
     }

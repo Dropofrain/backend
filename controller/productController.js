@@ -8,7 +8,8 @@ exports.addProduct = async (req, res) => {
         product_price: req.body.product_price,
         count_in_stock: req.body.count_in_stock,
         product_image: req.file.path,
-        category: req.body.category
+        category: req.body.category,
+        user: req.body.user
     })
     product = await product.save()
     if (!product) {
@@ -83,8 +84,8 @@ exports.deleteProduct = (req, res) => {
 
 // to get filtered product
 exports.filterProduct = async (req, res) => {
-    let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
-    let order = req.query.order ? req.query.order : '1'
+    let sortBy = req.query.sortBy ? req.query.sortBy : 'Rating'
+    let order = req.query.order ? req.query.order : -1
     let limit = req.query.limit ? Number(req.query.limit) : 2000000
     let skip = req.query.skip ? Number(req.query.skip) : 0
 
@@ -116,7 +117,7 @@ exports.filterProduct = async (req, res) => {
     if (!product) {
         return res.status(400).json({ error: "something went wrong" })
     }
-    res.json({ size: product.length, product })
+    res.json({ size: product.length, product})
 
 }
 
@@ -127,7 +128,7 @@ exports.findRelated = async(req,res)=>{
         return res.status(400).json({error:"something went wrong"})
     }
     let relatedProduct = await Product.find({
-        category: product.catagory,
+        category: product.category,
         _id:{
             $ne:product._id
         }
@@ -136,4 +137,15 @@ exports.findRelated = async(req,res)=>{
         return res.status(400).json({error:"something went wrong"})
     }
     res.send(relatedProduct)
+}
+
+// user products
+exports.userProducts = async(req, res)=>{
+    let product = await Product.find({
+        user: req.params.user_id
+    })
+    if(!product){
+        return res.status(400).json({error:"something went wrong"})
+    }
+    res.send(product)
 }

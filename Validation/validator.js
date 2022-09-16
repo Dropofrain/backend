@@ -15,8 +15,8 @@ exports.productValidationSchema = [
     check('product_price', 'price is required').notEmpty()
     .isNumeric().withMessage('price must be only number'),
     check('category','category is required').notEmpty(),
-    check('count_in_stock', 'count in stock is required').notEmpty()
-    .isNumeric().withMessage('count must be a number')
+    // check('count_in_stock', 'count in stock is required').notEmpty()
+    // .isNumeric().withMessage('count must be a number')
 ]
 
 // user validation
@@ -31,7 +31,9 @@ exports.userValidationSchema = [
     .matches(/[a-z]/).withMessage('must contain lowercase alphabet')
     .matches(/[A-Z]/).withMessage('must contain uppercase alphabet')
     .matches(/[0-9]/).withMessage('must contain number ')
-    .matches(/[_\-\.]/).withMessage('must contain special character')
+    //.matches(/[@$-#]/).withMessage('must contain number ')
+
+    // .matches(/[_\-\.]/).withMessage('must contain special character')
 ]
 
 // to display error

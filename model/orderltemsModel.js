@@ -8,7 +8,7 @@ let {ObjectId} = mongoose.Schema
 let orderItemsSchema = mongoose.Schema({
     product:{
         type:ObjectId,
-        ref:"Product",
+        ref:'product ',
         required: true
     },
     quantity:{
