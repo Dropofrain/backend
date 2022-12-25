@@ -1,6 +1,6 @@
 const Order = require('../model/orderModel')
 const OrderItems = require('../model/orderltemsModel')
-// const Product = require('../model/productModel')
+const Product = require('../model/productModel')
 
 exports.placeOrder = async (req, res) => {
     let orderItemsIds = await Promise.all(

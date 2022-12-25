@@ -19,3 +19,4 @@ exports.sendStripekey = (req,res) =>{
         stripeAPIKey : process.env.STRIPE_API_KEY
     })
 }
+
