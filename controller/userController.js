@@ -84,6 +84,48 @@ exports.addUser = async (req, res) => {
   }
 };
 
+exports.updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Find the user by ID
+    let user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // Update fields if they are present in the request body
+    if (req.body.name) user.name = req.body.name;
+    if (req.body.email) {
+      // Check if the new email is already taken by another user
+      const emailExists = await User.findOne({
+        email: req.body.email,
+        _id: { $ne: userId },
+      });
+
+      if (emailExists) {
+        return res.status(400).json({
+          error: "Email is already taken by another user.",
+        });
+      }
+
+      user.email = req.body.email;
+    }
+
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    // Save updated user
+    const updatedUser = await user.save();
+
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 exports.confirmUser = async (req, res) => {
   let token = await Token.findOne({ token: req.params.token });
   if (!token) {
